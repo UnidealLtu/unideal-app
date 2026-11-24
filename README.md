@@ -1,11 +1,37 @@
 # UnidealLtu – application source
 
-This repository is for the three application components:
+Deployment configurations are maintained separately in the [UnidealLtu-gitops](https://github.com/UnidealLtu/UnidealLtu-gitops) repository.
 
-- `frontend/`: React web application (to be implemented)
-- `services/listings-service/`: FastAPI listings API (to be implemented)
-- `services/favorites-service/`: FastAPI favorites/profile API (to be implemented)
+## Repository structure
 
-Keep each service's code, tests, Dockerfile, and dependencies in its own directory. Add GitHub Actions to test/build/publish individual images to GHCR. The other repository, `UnidealLtu-gitops`, declares which image versions run in development, staging and production.
+```text
+UnidealLtu-app/
+├── .github/
+│   └── workflows/
+│       └── README.md
+│
+├── frontend/
+│   └── README.md
+│
+├── services/
+│   ├── listings-service/
+│   │   └── README.md
+│   │
+│   └── favorites-service/
+│       └── README.md
+│
+├── .gitignore
+└── README.md
+```
 
-The initial GitOps starter deliberately deploys a small Nginx placeholder, not your application. It proves that all three Argo CD applications synchronize before your code exists.
+### Components
+
+| Directory | Purpose |
+|---|---|
+| `frontend/` | React application for browsing, creating and managing listings |
+| `services/listings-service/` | FastAPI service for creating, retrieving, updating and deleting listings |
+| `services/favorites-service/` | FastAPI service for managing users' saved listings and profile information |
+| `.github/workflows/` | GitHub Actions workflows for testing and building container images |
+
+Each service will contain its own source code, dependencies, tests and Dockerfile.
+
