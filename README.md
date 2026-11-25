@@ -14,7 +14,9 @@ Små bokstäver och bindestreck, inga å/ä/ö. Exempel: feature/produktsida
 
 git add .
 git commit -m "Beskriv vad du gjort"
-git push (första gången: git push -u origin <branch>)
+git push (om en ny branch ska pushas för första gången, använd: git push -u origin <feature/namnet-på-branchen>)
+
+
 
 **När du är klar**
 
