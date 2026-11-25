@@ -5,11 +5,14 @@ a { color: inherit; text-decoration: none; }
 main.container { padding-top: 24px; padding-bottom: 48px; }
 .muted { color: #6b7280; }
 
-.navbar { background: #fff; border-bottom: 1px solid #e5e7eb; }
+/* Top banner colour. Change --nav-bg to tell environments apart (e.g. red = dev). */
+:root { --nav-bg: #dc2626; }
+.navbar { background: var(--nav-bg); }
 .nav-inner { display: flex; justify-content: space-between; align-items: center; height: 56px; }
-.brand { font-weight: 700; font-size: 1.25rem; color: #2563eb; }
-.navbar nav a { margin-left: 20px; color: #4b5563; }
-.navbar nav a.active { color: #2563eb; font-weight: 600; }
+.brand { font-weight: 700; font-size: 1.25rem; color: #fff; }
+.navbar nav a { margin-left: 20px; color: rgba(255, 255, 255, 0.85); }
+.navbar nav a:hover { color: #fff; }
+.navbar nav a.active { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 6px; }
 
 .filters { display: flex; gap: 8px; margin-bottom: 20px; }
 .filters input { flex: 1; }
