@@ -1,0 +1,38 @@
+name: Build and publish frontend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: ghcr.io/unidealltu/unideal-frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build frontend image
+        run: docker build --label "org.opencontainers.image.source=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" -t "$IMAGE:$GITHUB_SHA" ./frontend
+      - name: Smoke test frontend
+        run: |
+          docker run -d --name frontend-test -p 127.0.0.1:8080:80 "$IMAGE:$GITHUB_SHA"
+          curl --fail --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:8080/healthz
+          curl --fail http://127.0.0.1:8080/ -o /tmp/index.html
+          curl --fail http://127.0.0.1:8080/profile -o /tmp/profile.html
+          cmp /tmp/index.html /tmp/profile.html
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+      - name: Publish image
+        run: |
+          docker push "$IMAGE:$GITHUB_SHA"
+          echo "Image: \`$IMAGE:$GITHUB_SHA\`" >> "$GITHUB_STEP_SUMMARY"
