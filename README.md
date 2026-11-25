@@ -11,6 +11,9 @@ UnidealLtu-app/
 │       └── README.md
 │
 ├── frontend/
+│   ├── src/
+│   ├── Dockerfile
+│   ├── nginx.conf
 │   └── README.md
 │
 ├── services/
@@ -20,9 +23,25 @@ UnidealLtu-app/
 │   └── favorites-service/
 │       └── README.md
 │
+├── docker-compose.yml
 ├── .gitignore
 └── README.md
 ```
+
+## Run locally with Docker
+
+Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/) to be installed and running.
+
+```bash
+git clone https://github.com/UnidealLtu/unideal-app.git
+cd unideal-app
+docker compose up --build
+```
+
+Open http://localhost:8080. Stop with `Ctrl+C` or `docker compose down`.
+After pulling new code, run `docker compose up --build` again to rebuild.
+
+See [frontend/README.md](frontend/README.md) for running the frontend without Docker.
 
 ### Components
 
