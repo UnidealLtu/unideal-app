@@ -1,3 +1,30 @@
-# Favorites/profile service
+Git-manual (kort)
 
-Create the FastAPI favorites API, Dockerfile and tests here.
+Innan du börjar
+
+git switch main
+git pull
+
+Skapa branch
+
+git switch -c typ/kort-beskrivning
+Typer: feature/, fix/, refactor/, docs/, chore/
+Små bokstäver och bindestreck, inga å/ä/ö. Exempel: feature/produktsida
+
+Medan du jobbar
+
+git add .
+git commit -m "Beskriv vad du gjort"
+git push (första gången: git push -u origin <branch>)
+
+När du är klar
+
+Öppna en Pull Request till main på GitHub.
+Någon i teamet granskar och godkänner, sedan mergar du.
+Ta bort branchen efteråt.
+
+Regler
+
+Pusha aldrig direkt till main.
+En branch per uppgift.
+Committa aldrig lösenord, nycklar eller .env-filer.
