@@ -1,60 +1,53 @@
-# Listings service
+Unideal Listings Service
 
-The Listings Service is a backend API built with*Python and FastAPI. It will handle advertisements for the Unideal marketplace.
+The Listings Service is a backend API for the UniDeal marketplace, developed using Python, FastAPI, SQLAlchemy, and PostgreSQL.
 
-## Current functionality
+The service handles the creation, retrieval, updating, and deletion of advertisements.
 
-The service currently provides a REST API endpoint that returns a list of example advertisements.
+Features
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/listings` | Retrieve all advertisements |
+The service provides a REST API with the following endpoints:
 
-The advertisements are currently hardcoded in Python. Database integration will be added later.
+Method
 
-## Technologies
+Endpoint
 
-- Python
-- FastAPI
-- Uvicorn
+Description
 
-## Running the service locally
+GET
 
-Navigate to the `services/listings-service` directory.
+/api/listings
 
-**1. Create a virtual environment**
+Retrieve all listings
 
-```bash
-python -m venv .venv
-```
+GET
 
-**2. Activate the virtual environment (Git Bash on Windows)**
+/api/listings/{id}
 
-```bash
-source .venv/Scripts/activate
-```
+Retrieve a specific listing
 
-**3. Install dependencies**
+POST
 
-```bash
-python -m pip install -r requirements.txt
-```
+/api/listings
 
-**4. Start the API**
+Create a new listing
 
-```bash
-python -m uvicorn main:app --reload
-```
+PUT
 
-## API documentation
+/api/listings/{id}
 
-Once the server is running, open:
+Update an existing listing
 
-**Swagger UI:** http://127.0.0.1:8000/docs
+DELETE
 
-**Listings endpoint:** http://127.0.0.1:8000/api/listings
+/api/listings/{id}
 
-FastAPI automatically generates interactive API documentation using OpenAPI.
+Delete a listing
 
+Each listing contains an ID, title, description, price, and location.
 
+Technologies
 
+The service uses FastAPI for the REST API, PostgreSQL for data storage, SQLAlchemy for database operations, and Docker Compose for local development.
+
+Automated testing is implemented using pytest and pytest-cov.
