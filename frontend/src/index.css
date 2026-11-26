@@ -8,14 +8,36 @@ main.container { padding-top: 24px; padding-bottom: 48px; }
 /* Top banner colour. Change --nav-bg to tell environments apart (e.g. red = dev). */
 :root { --nav-bg: #dc2626; }
 .navbar { background: var(--nav-bg); }
-.nav-inner { display: flex; justify-content: space-between; align-items: center; height: 56px; }
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.app main { flex: 1; width: 100%; }
+
+/* Header + category row stay at the top while scrolling. */
+.site-header { position: sticky; top: 0; z-index: 10; }
+
+.nav-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; height: 56px; }
+.nav-search { flex: 1; max-width: 520px; }
+.nav-search input { width: 100%; border-color: transparent; }
 .brand { font-weight: 700; font-size: 1.25rem; color: #fff; }
 .navbar nav a { margin-left: 20px; color: rgba(255, 255, 255, 0.85); }
 .navbar nav a:hover { color: #fff; }
 .navbar nav a.active { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 6px; }
+.navbar nav { white-space: nowrap; }
 
-.filters { display: flex; gap: 8px; margin-bottom: 20px; }
-.filters input { flex: 1; }
+.categories { background: #fff; border-bottom: 1px solid #e5e7eb; }
+.categories-inner { display: flex; gap: 24px; height: 44px; align-items: center; overflow-x: auto; white-space: nowrap; }
+.categories a { color: #6b7280; }
+.categories a:hover { color: #1f2933; }
+.categories a.active { color: #1f2933; font-weight: 600; text-decoration: underline; text-underline-offset: 6px; }
+
+@media (max-width: 640px) {
+  .nav-inner { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; gap: 10px; }
+  .nav-search { order: 3; flex-basis: 100%; max-width: none; }
+  .navbar nav a { margin-left: 14px; }
+}
+
+.footer { background: #fff; border-top: 1px solid #e5e7eb; padding: 20px 0; }
+.footer a { color: #6b7280; }
+.footer a:hover { color: #1f2933; }
 
 input, select, textarea { font: inherit; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; }
 button, .button { font: inherit; padding: 8px 14px; border: none; border-radius: 6px; background: #2563eb; color: #fff; cursor: pointer; display: inline-block; }
