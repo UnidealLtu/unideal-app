@@ -48,3 +48,81 @@ button.danger { background: #dc2626; }
 
 .profile { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 24px; }
 .profile h1 { margin-top: 0; }
+
+
+/* Listing detail layout */
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+/* Image section */
+.detail-image-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-image-section img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Favorite button */
+.favorite-button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #673ab7;
+  border-radius: 8px;
+  background-color: #f3eafa;
+  color: #512b81;
+}
+
+.favorite-button:hover {
+  background-color: #e8d9f7;
+}
+
+/* Listing information */
+.listing-info h1 {
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+/* Section headings */
+.listing-info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 6px;
+}
+
+/* Consistent text size */
+.listing-detail-text {
+  display: block;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 6px 0 20px;
+}
+
+/* Edit and delete buttons */
+.listing-info .actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .detail {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
