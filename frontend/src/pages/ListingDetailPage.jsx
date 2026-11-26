@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getListing, deleteListing } from '../services/listingService.js';
+import { getListing, deleteListing, formatPrice } from '../services/listingService.js';
 import { getProfile, getFavoriteIds, toggleFavorite } from '../services/profileService.js';
 
 export default function ListingDetailPage() {
@@ -33,7 +33,7 @@ export default function ListingDetailPage() {
       <img src={listing.imageUrl || 'https://placehold.co/600x400?text=No+image'} alt={listing.title} />
       <div>
         <h1>{listing.title}</h1>
-        <p className="price big">€{Number(listing.price).toFixed(2)}</p>
+        <p className="price big">{formatPrice(listing.price)}</p>
         <p className="muted">{listing.category} · Sold by {listing.sellerName}</p>
         <p>{listing.description}</p>
         <div className="actions">
