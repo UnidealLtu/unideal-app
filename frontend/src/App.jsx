@@ -14,7 +14,15 @@ export default function App() {
     <div className="app">
       <div className="site-header">
         <Navbar />
-        <CategoryBar />
+        {/* Category row only on the shopping pages: the home page and a single listing.
+            React Router picks the most specific match, so /listings/new (Sell) is not
+            treated as /listings/:id, and /listings/:id/edit falls through to "*". */}
+        <Routes>
+          <Route path="/" element={<CategoryBar />} />
+          <Route path="/listings/new" element={null} />
+          <Route path="/listings/:id" element={<CategoryBar />} />
+          <Route path="*" element={null} />
+        </Routes>
       </div>
       <main className="container">
         <Routes>
