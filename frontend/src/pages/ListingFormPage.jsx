@@ -40,7 +40,7 @@ export default function ListingFormPage() {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="form form-centered" onSubmit={handleSubmit}>
       <h1>{id ? 'Edit listing' : 'Sell a product'}</h1>
       <label>Title<input required value={form.title} onChange={set('title')} /></label>
       <label>Description<textarea rows="4" value={form.description} onChange={set('description')} /></label>
