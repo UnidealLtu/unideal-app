@@ -1,4 +1,4 @@
-Git-manual
+-- Git-manual --
 
 **Innan du börjar**
 
@@ -16,8 +16,6 @@ git add .
 git commit -m "Beskriv vad du gjort"
 git push (om en ny branch ska pushas för första gången, använd: git push -u origin <feature/namnet-på-branchen>)
 
-
-
 **När du är klar**
 
 Öppna en Pull Request till main på GitHub.
@@ -29,3 +27,4 @@ Ta bort branchen efteråt.
 Pusha aldrig direkt till main.
 En branch per uppgift.
 Committa aldrig lösenord, nycklar eller .env-filer.
+
