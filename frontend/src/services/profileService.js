@@ -10,7 +10,6 @@ const defaultProfile = {
   name: 'Demo User',
   email: 'demo@example.com',
   location: 'Vilnius',
-  bio: 'Student selling things I no longer need.',
 };
 
 export async function getProfile() {

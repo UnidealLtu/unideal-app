@@ -46,5 +46,7 @@ button.danger { background: #dc2626; }
 .form label { display: flex; flex-direction: column; gap: 4px; font-weight: 500; }
 .preview { max-width: 240px; border-radius: 6px; }
 
-.profile { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 24px; }
-.profile h1 { margin-top: 0; }
+.profile { background: #fff; padding: 20px; border-radius: 8px; margin-top: 20px; }
+.profile-columns { display: grid; grid-template-columns: 1fr 1fr 260px; gap: 32px; align-items: start; }
+.profile-columns .grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 700px) { .profile-columns { grid-template-columns: 1fr; } .profile { order: -1; } }
