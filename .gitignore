@@ -1,11 +1,16 @@
-.env
-.env.*
-!.env.example
+# Python
+.venv/
 __pycache__/
 .pytest_cache/
-.venv/
+.coverage
+
+# Environment variables
+.env
+.env.*
+
+# Uploaded images
+services/listings-service/uploads/
+
+# Frontend
 node_modules/
 dist/
-coverage/
-.DS_Store
-.coverage
