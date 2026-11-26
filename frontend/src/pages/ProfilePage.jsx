@@ -5,7 +5,6 @@ import { getProfile, updateProfile, getFavoriteIds, toggleFavorite } from '../se
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
-  const [editing, setEditing] = useState(false);
   const [myListings, setMyListings] = useState([]);
   const [saved, setSaved] = useState([]);
 
@@ -29,49 +28,42 @@ export default function ProfilePage() {
   const handleSave = async (e) => {
     e.preventDefault();
     setProfile(await updateProfile(profile));
-    setEditing(false);
   };
 
   const handleUnsave = async (id) => loadSaved(await toggleFavorite(id));
 
   return (
-    <>
-      <section className="profile">
-        {editing ? (
-          <form className="form" onSubmit={handleSave}>
-            <label>Name<input required value={profile.name} onChange={set('name')} /></label>
-            <label>Email<input type="email" value={profile.email} onChange={set('email')} /></label>
-            <label>Location<input value={profile.location} onChange={set('location')} /></label>
-            <label>Bio<textarea rows="3" value={profile.bio} onChange={set('bio')} /></label>
-            <button type="submit">Save profile</button>
-          </form>
+    <div className="profile-columns">
+      <section>
+        <h2>My listings ({myListings.length})</h2>
+        {myListings.length === 0 ? (
+          <p className="muted">You have not listed anything yet.</p>
         ) : (
-          <>
-            <h1>{profile.name}</h1>
-            <p className="muted">{profile.email} · {profile.location}</p>
-            <p>{profile.bio}</p>
-            <button onClick={() => setEditing(true)}>Edit profile</button>
-          </>
+          <div className="grid">{myListings.map((l) => <ListingCard key={l.id} listing={l} />)}</div>
         )}
       </section>
 
-      <h2>My listings ({myListings.length})</h2>
-      {myListings.length === 0 ? (
-        <p className="muted">You have not listed anything yet.</p>
-      ) : (
-        <div className="grid">{myListings.map((l) => <ListingCard key={l.id} listing={l} />)}</div>
-      )}
+      <section>
+        <h2>Saved listings ({saved.length})</h2>
+        {saved.length === 0 ? (
+          <p className="muted">No saved listings.</p>
+        ) : (
+          <div className="grid">
+            {saved.map((l) => (
+              <ListingCard key={l.id} listing={l} isFavorite onToggleFavorite={handleUnsave} />
+            ))}
+          </div>
+        )}
+      </section>
 
-      <h2>Saved listings ({saved.length})</h2>
-      {saved.length === 0 ? (
-        <p className="muted">No saved listings.</p>
-      ) : (
-        <div className="grid">
-          {saved.map((l) => (
-            <ListingCard key={l.id} listing={l} isFavorite onToggleFavorite={handleUnsave} />
-          ))}
-        </div>
-      )}
-    </>
+      <section className="profile">
+        <form className="form" onSubmit={handleSave}>
+          <label>Name<input required value={profile.name} onChange={set('name')} /></label>
+          <label>Email<input type="email" value={profile.email} onChange={set('email')} /></label>
+          <label>Location<input value={profile.location} onChange={set('location')} /></label>
+          <button type="submit">Save profile</button>
+        </form>
+      </section>
+    </div>
   );
 }
