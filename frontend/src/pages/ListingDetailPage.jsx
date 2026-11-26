@@ -117,8 +117,8 @@ export default function ListingDetailPage() {
           alt={listing.title}
         />
 
-        {/* Favorite button for logged-in users */}
-        {profile ? (
+        {/* Favorite button for logged-in users, not on their own listing */}
+        {!isOwner && (profile ? (
           <button
             className="favorite-button"
             onClick={handleFavorite}
@@ -129,7 +129,7 @@ export default function ListingDetailPage() {
           <p className="muted">
             Log in to save this listing.
           </p>
-        )}
+        ))}
 
       </div>
 
