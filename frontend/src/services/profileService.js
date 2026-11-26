@@ -1,5 +1,5 @@
 // Profile service (frontend client).
-// Mirrors services/favorites-service: profile info + saved (favorite) listings.
+// Profile info + saved (favorite) listings, for a future favorites-service.
 // For now data lives in localStorage. Swap these for fetch() calls later.
 
 const PROFILE_KEY = 'unideal.profile';

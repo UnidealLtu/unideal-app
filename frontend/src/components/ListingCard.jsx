@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { formatPrice } from '../services/listingService.js';
 
 export default function ListingCard({ listing, isFavorite, onToggleFavorite }) {
   return (
@@ -21,7 +22,7 @@ export default function ListingCard({ listing, isFavorite, onToggleFavorite }) {
         </div>
         <div className="card-row muted">
           <span>{listing.category}</span>
-          <strong className="price">€{Number(listing.price).toFixed(2)}</strong>
+          <strong className="price">{formatPrice(listing.price)}</strong>
         </div>
       </div>
     </div>

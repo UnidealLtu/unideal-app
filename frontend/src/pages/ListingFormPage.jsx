@@ -44,7 +44,7 @@ export default function ListingFormPage() {
       <h1>{id ? 'Edit listing' : 'Sell a product'}</h1>
       <label>Title<input required value={form.title} onChange={set('title')} /></label>
       <label>Description<textarea rows="4" value={form.description} onChange={set('description')} /></label>
-      <label>Price (€)<input required type="number" min="0" step="0.01" value={form.price} onChange={set('price')} /></label>
+      <label>Price (kr)<input required type="number" min="0" step="1" value={form.price} onChange={set('price')} /></label>
       <label>Category
         <select value={form.category} onChange={set('category')}>
           {CATEGORIES.map((c) => <option key={c}>{c}</option>)}

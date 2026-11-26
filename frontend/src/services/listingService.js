@@ -3,14 +3,25 @@
 // For now data lives in localStorage. To connect the real FastAPI backend,
 // replace the bodies of these functions with fetch() calls.
 
-const KEY = 'unideal.listings';
+// Bump the version when the seed data changes so existing browsers reload it.
+const KEY = 'unideal.listings.v3';
+
+const priceFormat = new Intl.NumberFormat('sv-SE', {
+  style: 'currency',
+  currency: 'SEK',
+  maximumFractionDigits: 0,
+});
+
+export function formatPrice(price) {
+  return priceFormat.format(Number(price));
+}
 
 const seed = [
   {
     id: '1',
     title: 'Calculus textbook (8th edition)',
     description: 'Lightly used, a few highlighted pages.',
-    price: 25,
+    price: 250,
     category: 'Books',
     imageUrl: 'https://picsum.photos/seed/book/400/300',
     sellerId: 'demo-user',
@@ -21,7 +32,7 @@ const seed = [
     id: '2',
     title: 'Desk lamp',
     description: 'LED lamp, adjustable arm, works perfectly.',
-    price: 12,
+    price: 120,
     category: 'Home',
     imageUrl: 'https://picsum.photos/seed/lamp/400/300',
     sellerId: 'someone-else',
@@ -32,12 +43,23 @@ const seed = [
     id: '3',
     title: 'City bike',
     description: '3 gears, new tyres. Pick up only.',
-    price: 90,
+    price: 900,
     category: 'Sports',
     imageUrl: 'https://picsum.photos/seed/bike/400/300',
     sellerId: 'someone-else',
     sellerName: 'Jamie',
     createdAt: '2026-11-15T09:15:00Z',
+  },
+  {
+    id: '4',
+    title: 'Wireless headphones',
+    description: 'Noise cancelling, comes with case and cable.',
+    price: 450,
+    category: 'Electronics',
+    imageUrl: 'https://picsum.photos/seed/headphones/400/300',
+    sellerId: 'someone-else',
+    sellerName: 'Jamie',
+    createdAt: '2026-11-20T12:00:00Z',
   },
 ];
 
