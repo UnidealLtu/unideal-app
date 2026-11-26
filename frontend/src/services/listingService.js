@@ -1,10 +1,5 @@
-// Listing service (frontend client).
-// Mirrors services/listings-service: create, read, update, delete listings.
-// For now data lives in localStorage. To connect the real FastAPI backend,
-// replace the bodies of these functions with fetch() calls.
 
-// Bump the version when the seed data changes so existing browsers reload it.
-const KEY = 'unideal.listings.v3';
+const API_URL = '/api/listings';
 
 const priceFormat = new Intl.NumberFormat('sv-SE', {
   style: 'currency',
@@ -16,98 +11,151 @@ export function formatPrice(price) {
   return priceFormat.format(Number(price));
 }
 
-const seed = [
-  {
-    id: '1',
-    title: 'Calculus textbook (8th edition)',
-    description: 'Lightly used, a few highlighted pages.',
-    price: 250,
-    category: 'Books',
-    imageUrl: 'https://picsum.photos/seed/book/400/300',
-    sellerId: 'demo-user',
-    sellerName: 'Demo User',
-    createdAt: '2026-11-01T10:00:00Z',
-  },
-  {
-    id: '2',
-    title: 'Desk lamp',
-    description: 'LED lamp, adjustable arm, works perfectly.',
-    price: 120,
-    category: 'Home',
-    imageUrl: 'https://picsum.photos/seed/lamp/400/300',
-    sellerId: 'someone-else',
-    sellerName: 'Jamie',
-    createdAt: '2026-11-10T14:30:00Z',
-  },
-  {
-    id: '3',
-    title: 'City bike',
-    description: '3 gears, new tyres. Pick up only.',
-    price: 900,
-    category: 'Sports',
-    imageUrl: 'https://picsum.photos/seed/bike/400/300',
-    sellerId: 'someone-else',
-    sellerName: 'Jamie',
-    createdAt: '2026-11-15T09:15:00Z',
-  },
-  {
-    id: '4',
-    title: 'Wireless headphones',
-    description: 'Noise cancelling, comes with case and cable.',
-    price: 450,
-    category: 'Electronics',
-    imageUrl: 'https://picsum.photos/seed/headphones/400/300',
-    sellerId: 'someone-else',
-    sellerName: 'Jamie',
-    createdAt: '2026-11-20T12:00:00Z',
-  },
+export const CATEGORIES = [
+  'Books',
+  'Electronics',
+  'Home',
+  'Clothing',
+  'Sports',
+  'Other',
 ];
 
-function load() {
-  const raw = localStorage.getItem(KEY);
-  if (!raw) {
-    localStorage.setItem(KEY, JSON.stringify(seed));
-    return [...seed];
-  }
-  return JSON.parse(raw);
+// Prepare listing data for FastAPI
+function prepareListing(data) {
+  return {
+    title: data.title,
+    description: data.description ?? '',
+    price: Number(data.price),
+    location: data.location,
+    category: data.category || 'Other',
+    imageUrl: data.imageUrl || null,
+
+    // Seller information from profile
+    sellerId: data.sellerId ?? null,
+    sellerName: data.sellerName ?? null,
+    sellerEmail: data.sellerEmail ?? null,
+  };
 }
 
-function save(listings) {
-  localStorage.setItem(KEY, JSON.stringify(listings));
-}
-
-export const CATEGORIES = ['Books', 'Electronics', 'Home', 'Clothing', 'Sports', 'Other'];
-
+// GET: Retrieve all listings
 export async function getListings({ search = '', category = '' } = {}) {
+  const response = await fetch(API_URL);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch listings');
+  }
+
+  const listings = await response.json();
   const q = search.trim().toLowerCase();
-  return load()
-    .filter((l) => !category || l.category === category)
-    .filter((l) => !q || l.title.toLowerCase().includes(q) || l.description.toLowerCase().includes(q))
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+  return listings
+    .filter((listing) =>
+      !category || listing.category === category
+    )
+    .filter((listing) =>
+      !q ||
+      listing.title.toLowerCase().includes(q) ||
+      (listing.description || '').toLowerCase().includes(q)
+    )
+    .sort((a, b) =>
+      new Date(b.createdAt) - new Date(a.createdAt)
+    );
 }
 
+// GET: Retrieve one listing
 export async function getListing(id) {
-  return load().find((l) => l.id === id) || null;
+  const response = await fetch(
+    `${API_URL}/${encodeURIComponent(id)}`
+  );
+
+  if (response.status === 404) {
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch listing');
+  }
+
+  return response.json();
 }
 
+// GET: Retrieve listings belonging to a seller
 export async function getListingsBySeller(sellerId) {
-  return load().filter((l) => l.sellerId === sellerId);
+  const listings = await getListings();
+
+  return listings.filter(
+    (listing) => listing.sellerId === sellerId
+  );
 }
 
+// POST: Create a listing
 export async function createListing(data) {
-  const listings = load();
-  const listing = { ...data, id: crypto.randomUUID(), createdAt: new Date().toISOString() };
-  listings.push(listing);
-  save(listings);
-  return listing;
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(prepareListing(data)),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create listing');
+  }
+
+  return response.json();
 }
 
+// PUT: Update a listing
 export async function updateListing(id, data) {
-  const listings = load().map((l) => (l.id === id ? { ...l, ...data } : l));
-  save(listings);
-  return listings.find((l) => l.id === id);
+  const response = await fetch(
+    `${API_URL}/${encodeURIComponent(id)}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(prepareListing(data)),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to update listing');
+  }
+
+  return response.json();
 }
 
+// DELETE: Delete a listing
 export async function deleteListing(id) {
-  save(load().filter((l) => l.id !== id));
+  const response = await fetch(
+    `${API_URL}/${encodeURIComponent(id)}`,
+    {
+      method: 'DELETE',
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to delete listing');
+  }
+}
+
+
+export async function uploadListingImage(file) {
+  const formData = new FormData();
+
+  formData.append('file', file);
+
+  const response = await fetch('/api/images', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(error?.detail || 'Could not upload image');
+  }
+
+  const result = await response.json();
+
+  return result.imageUrl;
 }
